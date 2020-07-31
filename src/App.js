@@ -37,10 +37,35 @@ class Test extends React.Component {
       })
     }
   }
+  click = (e) => {
+    console.log(e)
+  }
   render () {
     const doingList = []
+    const doneList = []
     this.state.doingList.forEach((item, index) => {
-      doingList.push(<li key={index}>{item}</li>)
+      doingList.push(<li
+        style={{ height: '24px', lineHeight: '24px' }}
+        key={index}>
+        {item}
+        <button
+          style={{ margin: '0px 0px 0px 100px' }}
+          onClick={(event) => { this.click(event) }}>
+          删除
+          </button>
+      </li>)
+    })
+    this.state.doneList.forEach((item, index) => {
+      doneList.push(<li
+        style={{ height: '24px', lineHeight: '24px' }}
+        key={index}>
+        {item}
+        <button
+          style={{ margin: '0px 0px 0px 100px' }}
+          onClick={(event) => { this.click(event) }}>
+          删除
+          </button>
+      </li>)
     })
     return (
       <div
@@ -59,6 +84,10 @@ class Test extends React.Component {
         <h3>正在进行</h3>
         <ul>
           {doingList}
+        </ul>
+        <h3>已经完成</h3>
+        <ul>
+          {doneList}
         </ul>
       </div>)
   }
