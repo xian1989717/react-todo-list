@@ -12,13 +12,18 @@ const divStyle = {
 const inputStyle = {
   marginLeft: '50px'
 }
+const buttonStyle = {
+  margin: '0px 0px 0px 100px'
+}
+
 class Test extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: '',
       doneList: [],
-      doingList: []
+      doingList: [],
+      index: 1
     }
     this.cacheValue = ''
   }
@@ -30,39 +35,56 @@ class Test extends React.Component {
   onKeyup = (e) => {
     if (e.keyCode === 13) {
       const arr = [...this.state.doingList]
-      arr.push(this.state.value)
+      let index = this.state.index
+      arr.push({ key: index, value: this.state.value })
       this.setState({
         doingList: arr,
-        value: ''
+        value: '',
+        index: index + 1
       })
     }
   }
-  click = (e) => {
-    console.log(e)
+  clickDoing = (e, key) => {
+    const doingArr = [...this.state.doingList]
+    const doingIndex = doingArr.findIndex(item => item.key === key)
+    doingArr.splice(doingIndex, 1)
+    this.setState({
+      doingList: doingArr,
+      value: ''
+    })
+  }
+  click = (e, key) => {
+    const doneArr = [...this.state.doneList]
+    const doneIndex = doneArr.findIndex(item => item.key === key)
+    doneArr.splice(doneIndex, 1)
+    this.setState({
+      doneList: doneArr,
+      value: ''
+    })
   }
   render () {
     const doingList = []
     const doneList = []
-    this.state.doingList.forEach((item, index) => {
+    this.state.doingList.forEach(item => {
       doingList.push(<li
-        style={{ height: '24px', lineHeight: '24px' }}
-        key={index}>
-        {item}
+        style={{ height: '32px', lineHeight: '24px' }}
+        key={item.key}>
+        {item.value}
         <button
-          style={{ margin: '0px 0px 0px 100px' }}
-          onClick={(event) => { this.click(event) }}>
+          style={buttonStyle}
+          onClick={(event) => { this.clickDoing(event, item.key) }}>
           删除
           </button>
       </li>)
     })
-    this.state.doneList.forEach((item, index) => {
+    this.state.doneList.forEach(item => {
       doneList.push(<li
-        style={{ height: '24px', lineHeight: '24px' }}
-        key={index}>
-        {item}
+        style={{ height: '32px', lineHeight: '24px' }}
+        key={item.key}>
+        {item.value}
         <button
-          style={{ margin: '0px 0px 0px 100px' }}
-          onClick={(event) => { this.click(event) }}>
+          style={buttonStyle}
+          onClick={(event) => { this.click(event, item.key) }}>
           删除
           </button>
       </li>)
