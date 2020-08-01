@@ -62,13 +62,17 @@ class Test extends React.Component {
       value: ''
     })
   }
+  liClick = (e, key) => {
+
+  }
   render () {
     const doingList = []
     const doneList = []
     this.state.doingList.forEach(item => {
       doingList.push(<li
         style={{ height: '32px', lineHeight: '24px' }}
-        key={item.key}>
+        key={item.key}
+        onclick={(event) => { this.liClick(event, item.key) }}>
         {item.value}
         <button
           style={buttonStyle}
