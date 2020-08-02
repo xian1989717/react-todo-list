@@ -63,17 +63,28 @@ class Test extends React.Component {
     })
   }
   liClick = (e, key) => {
-
+    const index = this.state.doingList.findIndex(item => item.key === key)
+    this.state.doneList.push(this.state.doingList[index])
+    this.setState({
+      doneList: this.state.doneList
+    })
+    this.state.doingList.splice(index, 1)
+    this.setState({
+      doingList: this.state.doingList
+    })
   }
   render () {
     const doingList = []
     const doneList = []
     this.state.doingList.forEach(item => {
       doingList.push(<li
-        style={{ height: '32px', lineHeight: '24px' }}
-        key={item.key}
-        onclick={(event) => { this.liClick(event, item.key) }}>
-        {item.value}
+        style={{ height: '32px', lineHeight: '24px' }}>
+        <span
+          style={{ display: 'inlineBlock', width: '100px' }}
+          key={item.key}
+          onClick={(event) => { this.liClick(event, item.key) }}>
+          {item.value}
+        </span>
         <button
           style={buttonStyle}
           onClick={(event) => { this.clickDoing(event, item.key) }}>
@@ -83,9 +94,11 @@ class Test extends React.Component {
     })
     this.state.doneList.forEach(item => {
       doneList.push(<li
-        style={{ height: '32px', lineHeight: '24px' }}
-        key={item.key}>
-        {item.value}
+        style={{ height: '32px', lineHeight: '24px' }}>
+        <span
+          key={item.key}>
+          {item.value}
+        </span>
         <button
           style={buttonStyle}
           onClick={(event) => { this.click(event, item.key) }}>
